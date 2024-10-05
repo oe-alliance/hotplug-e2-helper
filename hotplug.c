@@ -21,22 +21,40 @@ int main(int argc, char *argv[])
 	{
 		action = argv[1];
 		devpath = argv[2];
-		mode = 1;
 
+		mode = 1;
 		char data[1024];
 
 		snprintf(data, sizeof(data) - 1, "ACTION=%s", action);
 		data[sizeof(data) - 1] = 0;
 		printf("%s\n", data);
 
-		printf("ID_TYPE=%s\n", getenv("ID_TYPE"));
-		printf("DEVTYPE=%s\n", getenv("DEVTYPE"));
-		printf("DEVNAME=%s\n", getenv("DEVNAME"));
-		printf("ID_FS_TYPE=%s\n", getenv("ID_FS_TYPE"));
-		printf("ID_BUS=%s\n", getenv("ID_BUS"));
-		printf("ID_PART_ENTRY_UUID=%s\n", getenv("ID_PART_ENTRY_UUID"));
-		printf("ID_VENDOR=%s\n", getenv("ID_VENDOR"));
-
+		if(strcmp(action, "add") == 0)
+		{
+			printf("ID_TYPE=%s\n", getenv("ID_TYPE"));
+			printf("DEVTYPE=%s\n", getenv("DEVTYPE"));
+			printf("DEVNAME=%s\n", getenv("DEVNAME"));
+			printf("ID_FS_TYPE=%s\n", getenv("ID_FS_TYPE"));
+			printf("ID_BUS=%s\n", getenv("ID_BUS"));
+			printf("ID_PART_ENTRY_UUID=%s\n", getenv("ID_PART_ENTRY_UUID"));
+			printf("ID_VENDOR=%s\n", getenv("ID_VENDOR"));
+		}
+		else if(strcmp(action, "remove") == 0)
+		{
+			printf("DEVNAME=%s\n", getenv("DEVNAME"));
+		}
+		else if(strcmp(action, "ipup") == 0)
+		{
+			printf("INTERFACE=%s\n", devpath);
+		}
+		else if(strcmp(action, "ipdown") == 0)
+		{
+			printf("INTERFACE=%s\n", devpath);
+		}
+		else if(strcmp(action, "online") == 0)
+		{
+			printf("STATE=%s\n", devpath);
+		}
 		return 0;
 
 	}
