@@ -21,42 +21,7 @@ int main(int argc, char *argv[])
 	{
 		action = argv[1];
 		devpath = argv[2];
-
 		mode = 1;
-		char data[1024];
-
-		snprintf(data, sizeof(data) - 1, "ACTION=%s", action);
-		data[sizeof(data) - 1] = 0;
-		printf("%s\n", data);
-
-		if(strcmp(action, "add") == 0)
-		{
-			printf("ID_TYPE=%s\n", getenv("ID_TYPE"));
-			printf("DEVTYPE=%s\n", getenv("DEVTYPE"));
-			printf("DEVNAME=%s\n", getenv("DEVNAME"));
-			printf("ID_FS_TYPE=%s\n", getenv("ID_FS_TYPE"));
-			printf("ID_BUS=%s\n", getenv("ID_BUS"));
-			printf("ID_PART_ENTRY_UUID=%s\n", getenv("ID_PART_ENTRY_UUID"));
-			printf("ID_VENDOR=%s\n", getenv("ID_VENDOR"));
-		}
-		else if(strcmp(action, "remove") == 0)
-		{
-			printf("DEVNAME=%s\n", getenv("DEVNAME"));
-		}
-		else if(strcmp(action, "ipup") == 0)
-		{
-			printf("INTERFACE=%s\n", devpath);
-		}
-		else if(strcmp(action, "ipdown") == 0)
-		{
-			printf("INTERFACE=%s\n", devpath);
-		}
-		else if(strcmp(action, "online") == 0)
-		{
-			printf("STATE=%s\n", devpath);
-		}
-		return 0;
-
 	}
 	else if (argc > 3)
 	{
@@ -81,10 +46,56 @@ int main(int argc, char *argv[])
 					snprintf(data, sizeof(data) - 1, "ACTION=%s", action);
 					data[sizeof(data) - 1] = 0;
 					printf("%s\n", data);
-					//send(sd, data, strlen(data) + 1, 0);
+					send(sd, data, strlen(data) + 1, 0);
 
 					if (strcmp(action, "add") == 0)
 					{
+
+						snprintf(data, sizeof(data) - 1, "DEVPATH=%s", devpath);
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
+						snprintf(data, sizeof(data) - 1, "ID_TYPE=%s", getenv("ID_TYPE"));
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
+						snprintf(data, sizeof(data) - 1, "DEVTYPE=%s", getenv("DEVTYPE"));
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
+						snprintf(data, sizeof(data) - 1, "DEVNAME=%s", getenv("DEVNAME"));
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
+						snprintf(data, sizeof(data) - 1, "ID_FS_TYPE=%s", getenv("ID_FS_TYPE"));
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
+						snprintf(data, sizeof(data) - 1, "ID_BUS=%s", getenv("ID_BUS"));
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
+						snprintf(data, sizeof(data) - 1, "ID_FS_UUID=%s", getenv("ID_FS_UUID"));
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
+						snprintf(data, sizeof(data) - 1, "ID_MODEL=%s", getenv("ID_MODEL"));
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
+						snprintf(data, sizeof(data) - 1, "ID_PART_ENTRY_SIZE=%s", getenv("ID_PART_ENTRY_SIZE"));
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+
 
 						// ID_TYPE=disk
 						// DEVTYPE=partition
@@ -95,21 +106,34 @@ int main(int argc, char *argv[])
 						// ID_BUS=ata , ID_BUS=usb
 						// DEVNAME=/dev/sdd1
 
-
-						printf("ID_TYPE=%s\n", getenv("ID_TYPE"));
-						printf("DEVTYPE=%s\n", getenv("DEVTYPE"));
-						printf("DEVNAME=%s\n", getenv("DEVNAME"));
-						printf("ID_FS_TYPE=%s\n", getenv("ID_FS_TYPE"));
-						printf("ID_BUS=%s\n", getenv("ID_BUS"));
-						printf("ID_FS_UUID=%s\n", getenv("ID_FS_UUID"));
-						printf("ID_VENDOR=%s\n", getenv("ID_VENDOR"));
-						printf("ID_MODEL=%s\n", getenv("ID_MODEL"));
-						printf("ID_PART_ENTRY_SIZE=%s\n", getenv("ID_PART_ENTRY_SIZE"));
-
-
-//						snprintf(data, sizeof(data) - 1, "ACTION=%s", action);
-//						data[sizeof(data) - 1] = 0;
-//						send(sd, data, strlen(data) + 1, 0);
+					}
+					else if(strcmp(action, "remove") == 0)
+					{
+						snprintf(data, sizeof(data) - 1, "DEVPATH=%s", devpath);
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+					}
+					else if(strcmp(action, "ipup") == 0)
+					{
+						snprintf(data, sizeof(data) - 1, "INTERFACE=%s", devpath);
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+					}
+					else if(strcmp(action, "ipdown") == 0)
+					{
+						snprintf(data, sizeof(data) - 1, "INTERFACE=%s", devpath);
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
+					}
+					else if(strcmp(action, "online") == 0)
+					{
+						snprintf(data, sizeof(data) - 1, "STATE=%s", devpath);
+						data[sizeof(data) - 1] = 0;
+						printf("%s\n", data);
+						send(sd, data, strlen(data) + 1, 0);
 					}
 				}
 			}
