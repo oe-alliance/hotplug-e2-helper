@@ -7,6 +7,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <string.h>
+#include <unistd.h>
 
 int main(int argc, char *argv[])
 {
@@ -82,8 +83,10 @@ int main(int argc, char *argv[])
 						printf("DEVNAME=%s\n", getenv("DEVNAME"));
 						printf("ID_FS_TYPE=%s\n", getenv("ID_FS_TYPE"));
 						printf("ID_BUS=%s\n", getenv("ID_BUS"));
-						printf("ID_PART_ENTRY_UUID=%s\n", getenv("ID_PART_ENTRY_UUID"));
+						printf("ID_FS_UUID=%s\n", getenv("ID_FS_UUID"));
 						printf("ID_VENDOR=%s\n", getenv("ID_VENDOR"));
+						printf("ID_MODEL=%s\n", getenv("ID_MODEL"));
+						printf("ID_PART_ENTRY_SIZE=%s\n", getenv("ID_PART_ENTRY_SIZE"));
 
 
 //						snprintf(data, sizeof(data) - 1, "ACTION=%s", action);
