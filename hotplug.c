@@ -43,59 +43,12 @@ int main(int argc, char *argv[])
 			{
 				if (action && devpath)
 				{
-					snprintf(data, sizeof(data) - 1, "ACTION=%s", action);
-					data[sizeof(data) - 1] = 0;
-					printf("%s\n", data);
-					send(sd, data, strlen(data) + 1, 0);
-
 					if (strcmp(action, "add") == 0)
 					{
-
-						snprintf(data, sizeof(data) - 1, "DEVPATH=%s", devpath);
+						snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_TYPE=%s\nID_BUS=%s\nID_FS_UUID=%s\nID_MODEL=%s\nID_PART_ENTRY_SIZE=%s", action, devpath , getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_TYPE"), getenv("ID_BUS"), getenv("ID_FS_UUID"), getenv("ID_MODEL"),getenv("ID_PART_ENTRY_SIZE"));
 						data[sizeof(data) - 1] = 0;
 						printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
-
-						snprintf(data, sizeof(data) - 1, "ID_TYPE=%s", getenv("ID_TYPE"));
-						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
-
-						snprintf(data, sizeof(data) - 1, "DEVTYPE=%s", getenv("DEVTYPE"));
-						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
-
-						snprintf(data, sizeof(data) - 1, "DEVNAME=%s", getenv("DEVNAME"));
-						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
-
-						snprintf(data, sizeof(data) - 1, "ID_FS_TYPE=%s", getenv("ID_FS_TYPE"));
-						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
-
-						snprintf(data, sizeof(data) - 1, "ID_BUS=%s", getenv("ID_BUS"));
-						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
-
-						snprintf(data, sizeof(data) - 1, "ID_FS_UUID=%s", getenv("ID_FS_UUID"));
-						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
-
-						snprintf(data, sizeof(data) - 1, "ID_MODEL=%s", getenv("ID_MODEL"));
-						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
-
-						snprintf(data, sizeof(data) - 1, "ID_PART_ENTRY_SIZE=%s", getenv("ID_PART_ENTRY_SIZE"));
-						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
-
 
 						// ID_TYPE=disk
 						// DEVTYPE=partition
@@ -109,28 +62,28 @@ int main(int argc, char *argv[])
 					}
 					else if(strcmp(action, "remove") == 0)
 					{
-						snprintf(data, sizeof(data) - 1, "DEVPATH=%s", devpath);
+						snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
 						printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "ipup") == 0)
 					{
-						snprintf(data, sizeof(data) - 1, "INTERFACE=%s", devpath);
+						snprintf(data, sizeof(data) - 1, "ACTION=%s\nINTERFACE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
 						printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "ipdown") == 0)
 					{
-						snprintf(data, sizeof(data) - 1, "INTERFACE=%s", devpath);
+						snprintf(data, sizeof(data) - 1, "ACTION=%s\nINTERFACE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
 						printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "online") == 0)
 					{
-						snprintf(data, sizeof(data) - 1, "STATE=%s", devpath);
+						snprintf(data, sizeof(data) - 1, "ACTION=%s\nSTATE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
 						printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
