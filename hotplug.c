@@ -67,14 +67,14 @@ int main(int argc, char *argv[])
 						printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
-					else if(strcmp(action, "ipup") == 0)
+					else if(strcmp(action, "ifup") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nINTERFACE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
 						printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
-					else if(strcmp(action, "ipdown") == 0)
+					else if(strcmp(action, "ifdown") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nINTERFACE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
