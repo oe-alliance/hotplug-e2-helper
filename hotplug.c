@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 	struct sockaddr_un serv_addr_un;
 
 	int mode = 0;
+	int debug = 0;
 
 	if(argc == 3)
 	{
@@ -28,6 +29,12 @@ int main(int argc, char *argv[])
 		action = argv[1];
 		devpath = argv[2];
 		physdevpath = argv[3];
+		if (strcmp(physdevpath, "-d") == 0)
+		{
+			mode = 1;
+			debug = 1;
+		}
+
 	}
 	memset(&serv_addr_un, 0, sizeof(serv_addr_un));
 	serv_addr_un.sun_family = AF_LOCAL;
@@ -47,45 +54,40 @@ int main(int argc, char *argv[])
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_TYPE=%s\nID_BUS=%s\nID_FS_UUID=%s\nID_MODEL=%s\nID_PART_ENTRY_SIZE=%s", action, devpath , getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_TYPE"), getenv("ID_BUS"), getenv("ID_FS_UUID"), getenv("ID_MODEL"),getenv("ID_PART_ENTRY_SIZE"));
 						data[sizeof(data) - 1] = 0;
-						// printf("%s\n", data);
+						if (debug)
+							printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
-
-						// ID_TYPE=disk
-						// DEVTYPE=partition
-						// ID_FS_TYPE=ext4
-						// ID_MODEL=SAMSUNG_SSD_PM810_TH_64GB
-						// ID_PART_ENTRY_UUID=d835c198-01
-						// ID_VENDOR=JMicron ( Optional )
-						// ID_BUS=ata , ID_BUS=usb
-						// DEVNAME=/dev/sdd1
-
 					}
 					else if(strcmp(action, "remove") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_UUID=%s", action, devpath, getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_UUID"));
 						data[sizeof(data) - 1] = 0;
-						// printf("%s\n", data);
+						if (debug)
+							printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "ifup") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nINTERFACE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
-						// printf("%s\n", data);
+						if (debug)
+							printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "ifdown") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nINTERFACE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
-						// printf("%s\n", data);
+						if (debug)
+							printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "online") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nSTATE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
-						// printf("%s\n", data);
+						if (debug)
+							printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 				}
