@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_TYPE=%s\nID_BUS=%s\nID_FS_UUID=%s\nID_MODEL=%s\nID_PART_ENTRY_SIZE=%s", action, devpath , getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_TYPE"), getenv("ID_BUS"), getenv("ID_FS_UUID"), getenv("ID_MODEL"),getenv("ID_PART_ENTRY_SIZE"));
 						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
+						// printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 
 						// ID_TYPE=disk
@@ -64,28 +64,28 @@ int main(int argc, char *argv[])
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_UUID=%s", action, devpath, getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_UUID"));
 						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
+						// printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "ifup") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nINTERFACE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
+						// printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "ifdown") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nINTERFACE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
+						// printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "online") == 0)
 					{
 						snprintf(data, sizeof(data) - 1, "ACTION=%s\nSTATE=%s", action, devpath);
 						data[sizeof(data) - 1] = 0;
-						printf("%s\n", data);
+						// printf("%s\n", data);
 						send(sd, data, strlen(data) + 1, 0);
 					}
 				}
