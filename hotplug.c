@@ -45,10 +45,8 @@ int main(int argc, char *argv[])
 			mode = 1;
 			debug = 1;
 		}
-		if (strcmp(physdevpath, "-e") == 0 && strcmp(action, "add") == 0)
-		{
+		if (strcmp(physdevpath, "-e") == 0)
 			mode = 2;
-		}
 		if (argc > 4)
 		{
 			if (strcmp(argv[4], "-d") == 0)
@@ -57,11 +55,14 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-	memset(&serv_addr_un, 0, sizeof(serv_addr_un));
-	serv_addr_un.sun_family = AF_LOCAL;
-	strcpy(serv_addr_un.sun_path, "/tmp/hotplug.socket");
-	sd = socket(AF_LOCAL, SOCK_STREAM, 0);
-	if (sd >= 0)
+	if (mode != 2)
+	{
+		memset(&serv_addr_un, 0, sizeof(serv_addr_un));
+		serv_addr_un.sun_family = AF_LOCAL;
+		strcpy(serv_addr_un.sun_path, "/tmp/hotplug.socket");
+		sd = socket(AF_LOCAL, SOCK_STREAM, 0);
+	}
+	if (mode == 2 || sd >= 0)
 	{
 		if (mode == 2 || connect(sd, (const struct sockaddr*)&serv_addr_un, sizeof(serv_addr_un)) >= 0)
 		{
@@ -101,7 +102,8 @@ int main(int argc, char *argv[])
 						data[sizeof(data) - 1] = 0;
 						if (debug)
 							printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
+						if (mode == 1)
+							send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "ifup") == 0)
 					{
@@ -109,7 +111,8 @@ int main(int argc, char *argv[])
 						data[sizeof(data) - 1] = 0;
 						if (debug)
 							printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
+						if (mode == 1)
+							send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "ifdown") == 0)
 					{
@@ -117,7 +120,8 @@ int main(int argc, char *argv[])
 						data[sizeof(data) - 1] = 0;
 						if (debug)
 							printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
+						if (mode == 1)
+							send(sd, data, strlen(data) + 1, 0);
 					}
 					else if(strcmp(action, "online") == 0)
 					{
@@ -125,7 +129,8 @@ int main(int argc, char *argv[])
 						data[sizeof(data) - 1] = 0;
 						if (debug)
 							printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
+						if (mode == 1)
+							send(sd, data, strlen(data) + 1, 0);
 					}
 				}
 			}
@@ -170,6 +175,7 @@ int main(int argc, char *argv[])
 			}
 
 		}
-		close(sd);
+		if (mode != 2)
+			close(sd);
 	}
 }
