@@ -9,6 +9,17 @@
 #include <string.h>
 #include <unistd.h>
 
+
+int replacechar(char *str, char orig, char rep) {
+    char *ix = str;
+    int n = 0;
+    while((ix = strchr(ix, orig)) != NULL) {
+        *ix++ = rep;
+        n++;
+    }
+    return n;
+}
+
 int main(int argc, char *argv[])
 {
 	const char *action = NULL, *devpath = NULL, *physdevpath = NULL, *mediastatus = NULL;
@@ -34,7 +45,17 @@ int main(int argc, char *argv[])
 			mode = 1;
 			debug = 1;
 		}
-
+		if (strcmp(physdevpath, "-e") == 0 && strcmp(action, "add") == 0)
+		{
+			mode = 2;
+		}
+		if (argc > 4)
+		{
+			if (strcmp(argv[4], "-d") == 0)
+			{
+				debug = 1;
+			}
+		}
 	}
 	memset(&serv_addr_un, 0, sizeof(serv_addr_un));
 	serv_addr_un.sun_family = AF_LOCAL;
@@ -42,11 +63,11 @@ int main(int argc, char *argv[])
 	sd = socket(AF_LOCAL, SOCK_STREAM, 0);
 	if (sd >= 0)
 	{
-		if (connect(sd, (const struct sockaddr*)&serv_addr_un, sizeof(serv_addr_un)) >= 0)
+		if (mode == 2 || connect(sd, (const struct sockaddr*)&serv_addr_un, sizeof(serv_addr_un)) >= 0)
 		{
 			char data[1024];
 
-			if(mode == 1)
+			if(mode > 1)
 			{
 				if (action && devpath)
 				{
@@ -56,7 +77,21 @@ int main(int argc, char *argv[])
 						data[sizeof(data) - 1] = 0;
 						if (debug)
 							printf("%s\n", data);
-						send(sd, data, strlen(data) + 1, 0);
+						if (mode == 1)
+							send(sd, data, strlen(data) + 1, 0);
+						else
+						{
+							replacechar(devpath, '/', '_');
+							FILE *f;
+							char fn[255];
+							snprintf(fn, sizeof(fn) - 1, "/tmp/hotplug_%s", devpath);
+							f = fopen(fn, "w");
+							if (f)
+							{
+								fprintf(f, data);
+								fclose(f);
+							}
+						}
 					}
 					else if(strcmp(action, "remove") == 0)
 					{
