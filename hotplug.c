@@ -81,10 +81,12 @@ int main(int argc, char *argv[])
 							send(sd, data, strlen(data) + 1, 0);
 						else
 						{
-							replacechar(devpath, '/', '_');
+							char devpathnorm[255];
+							snprintf(devpathnorm, sizeof(devpathnorm) - 1, "%s", devpath);
+							replacechar(devpathnorm, '/', '_');
 							FILE *f;
 							char fn[255];
-							snprintf(fn, sizeof(fn) - 1, "/tmp/hotplug_%s", devpath);
+							snprintf(fn, sizeof(fn) - 1, "/tmp/hotplug_%s", devpathnorm);
 							f = fopen(fn, "w");
 							if (f)
 							{
