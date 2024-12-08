@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 		{
 			char data[1024];
 
-			if(mode > 1)
+			if(mode > 0)
 			{
 				if (action && devpath)
 				{
@@ -87,11 +87,12 @@ int main(int argc, char *argv[])
 							replacechar(devpathnorm, '/', '_');
 							FILE *f;
 							char fn[255];
-							snprintf(fn, sizeof(fn) - 1, "/tmp/hotplug_%s", devpathnorm);
+							snprintf(fn, sizeof(fn) - 1, "/tmp/hotplug%s", devpathnorm);
 							f = fopen(fn, "w");
 							if (f)
 							{
 								fprintf(f, data);
+								fprintf(f, "\n");
 								fclose(f);
 							}
 						}
