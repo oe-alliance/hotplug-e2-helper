@@ -74,37 +74,43 @@ int main(int argc, char *argv[])
 				{
 					if (strcmp(action, "add") == 0)
 					{
-						snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_TYPE=%s\nID_BUS=%s\nID_FS_UUID=%s\nID_MODEL=%s\nID_PART_ENTRY_SIZE=%s", action, devpath , getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_TYPE"), getenv("ID_BUS"), getenv("ID_FS_UUID"), getenv("ID_MODEL"),getenv("ID_PART_ENTRY_SIZE"));
-						data[sizeof(data) - 1] = 0;
-						if (debug)
-							printf("%s\n", data);
-						if (mode == 1)
-							send(sd, data, strlen(data) + 1, 0);
-						else
+						if(getenv("DEVNAME"))
 						{
-							char devpathnorm[255];
-							snprintf(devpathnorm, sizeof(devpathnorm) - 1, "%s", devpath);
-							replacechar(devpathnorm, '/', '_');
-							FILE *f;
-							char fn[255];
-							snprintf(fn, sizeof(fn) - 1, "/tmp/hotplug%s", devpathnorm);
-							f = fopen(fn, "w");
-							if (f)
+							snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_TYPE=%s\nID_BUS=%s\nID_FS_UUID=%s\nID_MODEL=%s\nID_PART_ENTRY_SIZE=%s", action, devpath , getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_TYPE"), getenv("ID_BUS"), getenv("ID_FS_UUID"), getenv("ID_MODEL"),getenv("ID_PART_ENTRY_SIZE"));
+							data[sizeof(data) - 1] = 0;
+							if (debug)
+								printf("%s\n", data);
+							if (mode == 1)
+								send(sd, data, strlen(data) + 1, 0);
+							else
 							{
-								fprintf(f, data);
-								fprintf(f, "\n");
-								fclose(f);
+								char devpathnorm[255];
+								snprintf(devpathnorm, sizeof(devpathnorm) - 1, "%s", getenv("DEVNAME"));
+								replacechar(devpathnorm, '/', '_');
+								FILE *f;
+								char fn[255];
+								snprintf(fn, sizeof(fn) - 1, "/tmp/hotplug%s", devpathnorm);
+								f = fopen(fn, "w");
+								if (f)
+								{
+									fprintf(f, data);
+									fprintf(f, "\n");
+									fclose(f);
+								}
 							}
 						}
 					}
 					else if(strcmp(action, "remove") == 0)
 					{
-						snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_UUID=%s", action, devpath, getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_UUID"));
-						data[sizeof(data) - 1] = 0;
-						if (debug)
-							printf("%s\n", data);
-						if (mode == 1)
-							send(sd, data, strlen(data) + 1, 0);
+						if(getenv("DEVNAME"))
+						{
+							snprintf(data, sizeof(data) - 1, "ACTION=%s\nDEVPATH=%s\nID_TYPE=%s\nDEVTYPE=%s\nDEVNAME=%s\nID_FS_UUID=%s", action, devpath, getenv("ID_TYPE"), getenv("DEVTYPE"), getenv("DEVNAME"), getenv("ID_FS_UUID"));
+							data[sizeof(data) - 1] = 0;
+							if (debug)
+								printf("%s\n", data);
+							if (mode == 1)
+								send(sd, data, strlen(data) + 1, 0);
+						}
 					}
 					else if(strcmp(action, "ifup") == 0)
 					{
